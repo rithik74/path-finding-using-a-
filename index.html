@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A* Pathfinder Visualizer</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-icon">▲</span>
+        <span class="logo-text">A* Pathfinder<sup>VIS</sup></span>
+      </div>
+      <div class="tagline">Premium Algorithm Visualization</div>
+    </div>
+    
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot start"></span> Start</div>
+      <div class="legend-item"><span class="legend-dot end"></span> End</div>
+      <div class="legend-item"><span class="legend-dot wall"></span> Wall</div>
+      <div class="legend-item"><span class="legend-dot open"></span> Open</div>
+      <div class="legend-item"><span class="legend-dot closed"></span> Closed</div>
+      <div class="legend-item"><span class="legend-dot path"></span> Path</div>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+    
+    <!-- Sidebar Controls -->
+    <div class="sidebar">
+      <!-- Toolbox Panel -->
+      <div class="panel">
+        <div class="panel-title">Drawing Tools</div>
+        <div class="control-group">
+          <div class="mode-buttons">
+            <button class="mode-btn active" data-mode="wall">Wall (w)</button>
+            <button class="mode-btn" data-mode="start">Start (s)</button>
+            <button class="mode-btn" data-mode="end">End (g)</button>
+            <button class="mode-btn" data-mode="erase">Erase (e)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Panel -->
+      <div class="panel">
+        <div class="panel-title">Settings</div>
+        
+        <div class="control-group">
+          <label class="control-label">Grid Size: <span id="grid-size-val">20 × 20</span></label>
+          <input type="range" class="slider" id="grid-size" min="10" max="40" value="20" step="1">
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Anim. Speed: <span id="speed-val">Medium</span></label>
+          <input type="range" class="slider" id="speed" min="1" max="5" value="3" step="1">
+        </div>
+
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" class="toggle-input" id="diagonal-toggle">
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            Allow Diagonal Movement
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Heuristic Function</label>
+          <select class="select-input" id="heuristic">
+            <option value="manhattan">Manhattan Distance</option>
+            <option value="euclidean">Euclidean Distance</option>
+            <option value="chebyshev">Chebyshev Distance</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Actions Panel -->
+      <div class="panel">
+        <div class="panel-title">Actions</div>
+        <div class="btn-group">
+          <button class="btn btn-primary" id="btn-start-algo">▶ Start Pathfinding (space)</button>
+          <button class="btn btn-secondary" id="btn-maze">🎲 Generate Maze (m)</button>
+          <button class="btn btn-outline" id="btn-clear-path">Clear Path Only</button>
+          <button class="btn btn-danger" id="btn-reset">Reset Grid (r)</button>
+        </div>
+      </div>
+
+      <!-- Metrics Panel -->
+      <div class="panel metrics-panel">
+        <div class="panel-title">Metrics</div>
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-value" id="metric-nodes">—</div>
+            <div class="metric-label">Nodes Explored</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="metric-path">—</div>
+            <div class="metric-label">Path Length</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="metric-cost">—</div>
+            <div class="metric-label">Total Cost</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value"><span id="metric-time">—</span> <span style="font-size: 0.6em;">ms</span></div>
+            <div class="metric-label">Compute Time</div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Canvas Area -->
+    <div class="canvas-area">
+      <div class="status-bar">
+        <span class="status-icon" id="status-icon">⬜</span>
+        <span class="status-text" id="status-text">Ready — click the grid to place walls, then ▶ Start</span>
+      </div>
+      
+      <div class="canvas-wrapper">
+        <canvas id="grid-canvas"></canvas>
+        <div class="canvas-overlay"></div>
+      </div>
+      
+      <div class="canvas-hint" id="canvas-hint">Hint: Click & drag to paint. Right-click to erase.</div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">⚠️</span>
+    <span id="toast-msg">Notification Message</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="grid.js"></script>
+  <script src="visualizer.js"></script>
+  <script src="astar.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
